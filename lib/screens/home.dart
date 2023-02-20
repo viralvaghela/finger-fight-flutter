@@ -8,18 +8,16 @@ class Home extends StatefulWidget {
   State<Home> createState() => _HomeState();
 }
 
-double heighPlayerTop = 400;
-double heighPlayerBottom = 400;
-String winner = "";
+double heighPlayerTop = 410;
+double heighPlayerBottom = 410;
+double increment = 10;
 
-checkwinner() {
-  if (heighPlayerTop == 0) {
-    AudioPlayer().play(AssetSource('audio/winner.wav'));
-    winner = "Red is the winner";
-  } else if (heighPlayerBottom == 0) {
-    AudioPlayer().play(AssetSource('audio/winner.wav'));
-    winner = "Green is the winner";
-  }
+String winner = "";
+bool isWinnerDeclared = false;
+
+resetGame() {
+  heighPlayerBottom = 410;
+  heighPlayerTop = 410;
 }
 
 class _HomeState extends State<Home> {
@@ -30,16 +28,31 @@ class _HomeState extends State<Home> {
         body: SizedBox(
           height: double.infinity,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              InkWell(
+              GestureDetector(
                 onTap: () {
-                  AudioPlayer().play(AssetSource('audio/tap.wav'));
-                  setState(() {
-                    heighPlayerTop = heighPlayerTop + 10;
-                    heighPlayerBottom = heighPlayerBottom - 10;
-                    checkwinner();
-                  });
+                  AudioPlayer().play(AssetSource('audio/tap2.wav'));
+                  setState(
+                    () {
+                      heighPlayerTop = heighPlayerTop + increment;
+
+                      heighPlayerBottom - increment >= 0
+                          ? heighPlayerBottom = heighPlayerBottom - increment
+                          : heighPlayerBottom;
+
+                      //check winner
+                      if (heighPlayerTop <= 0) {
+                        isWinnerDeclared = true;
+                        AudioPlayer().play(AssetSource('audio/winner.wav'));
+                        winner = "Green is the winner";
+                      } else if (heighPlayerBottom <= 0) {
+                        isWinnerDeclared = true;
+                        AudioPlayer().play(AssetSource('audio/winner.wav'));
+                        winner = "Red is the winner";
+                      }
+                    },
+                  );
                 },
                 child: Container(
                   color: Colors.red,
@@ -48,12 +61,21 @@ class _HomeState extends State<Home> {
               ),
               InkWell(
                 onTap: () {
-                  AudioPlayer().play(AssetSource('audio/tap.wav'));
+                  AudioPlayer().play(AssetSource('audio/tap2.wav'));
                   setState(() {
-                    heighPlayerTop = heighPlayerTop - 10;
-                    heighPlayerBottom = heighPlayerBottom + 10;
-                    checkwinner();
-                    print(heighPlayerBottom);
+                    heighPlayerTop - increment >= 0
+                        ? heighPlayerTop = heighPlayerTop - increment
+                        : heighPlayerTop;
+                    heighPlayerBottom = heighPlayerBottom + increment;
+
+                    //check winner
+                    if (heighPlayerTop <= 0) {
+                      AudioPlayer().play(AssetSource('audio/winner.wav'));
+                      winner = "Green is the winner";
+                    } else if (heighPlayerBottom <= 0) {
+                      AudioPlayer().play(AssetSource('audio/winner.wav'));
+                      winner = "Red is the winner";
+                    }
                   });
                 },
                 child: Container(
