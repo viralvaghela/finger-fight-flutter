@@ -41,15 +41,17 @@ class _HomeState extends State<Home> {
                           ? heighPlayerBottom = heighPlayerBottom - increment
                           : heighPlayerBottom;
 
-                      //check winner
+                      //check winner 
                       if (heighPlayerTop <= 0) {
                         isWinnerDeclared = true;
                         AudioPlayer().play(AssetSource('audio/winner.wav'));
                         winner = "Green is the winner";
+                        resetGame();
                       } else if (heighPlayerBottom <= 0) {
                         isWinnerDeclared = true;
                         AudioPlayer().play(AssetSource('audio/winner.wav'));
                         winner = "Red is the winner";
+                        resetGame();
                       }
                     },
                   );
@@ -72,9 +74,11 @@ class _HomeState extends State<Home> {
                     if (heighPlayerTop <= 0) {
                       AudioPlayer().play(AssetSource('audio/winner.wav'));
                       winner = "Green is the winner";
+                      resetGame();
                     } else if (heighPlayerBottom <= 0) {
                       AudioPlayer().play(AssetSource('audio/winner.wav'));
                       winner = "Red is the winner";
+                      resetGame();
                     }
                   });
                 },
