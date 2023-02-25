@@ -15,7 +15,29 @@ double increment = 10;
 String winner = "";
 bool isWinnerDeclared = false;
 
-resetGame() {
+resetGame(context) {
+  showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: Text("Winner"),
+        content: Text(winner),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text("Play Again",
+                style: TextStyle(
+                  color: Colors.green,
+                ),
+
+            ),
+          ),
+        ],
+      );
+    },
+  );
   heighPlayerBottom = 410;
   heighPlayerTop = 410;
 }
@@ -46,12 +68,12 @@ class _HomeState extends State<Home> {
                         isWinnerDeclared = true;
                         AudioPlayer().play(AssetSource('audio/winner.wav'));
                         winner = "Green is the winner";
-                        resetGame();
+                        resetGame(context);
                       } else if (heighPlayerBottom <= 0) {
                         isWinnerDeclared = true;
                         AudioPlayer().play(AssetSource('audio/winner.wav'));
                         winner = "Red is the winner";
-                        resetGame();
+                        resetGame(context);
                       }
                     },
                   );
@@ -74,11 +96,11 @@ class _HomeState extends State<Home> {
                     if (heighPlayerTop <= 0) {
                       AudioPlayer().play(AssetSource('audio/winner.wav'));
                       winner = "Green is the winner";
-                      resetGame();
+                        resetGame(context);
                     } else if (heighPlayerBottom <= 0) {
                       AudioPlayer().play(AssetSource('audio/winner.wav'));
                       winner = "Red is the winner";
-                      resetGame();
+                        resetGame(context);
                     }
                   });
                 },
